@@ -43,9 +43,14 @@ export function getLocalizedPath(path: string, currentLang?: string) {
   const lang = currentLang ?? getLangFromPath(path)
 
   const langPrefix = lang === defaultLocale ? '' : `/${lang}`
+  // If the path looks like a file (e.g., atom.xml, rss.xml, robots.txt),
+  // do NOT append a trailing slash to avoid 404s on static hosts like Cloudflare Workers.
+  const isFileLike = /\.[a-z0-9]+$/i.test(normalizedPath)
   const localizedPath = normalizedPath === ''
     ? `${langPrefix}/`
-    : `${langPrefix}/${normalizedPath}/`
+    : isFileLike
+      ? `${langPrefix}/${normalizedPath}`
+      : `${langPrefix}/${normalizedPath}/`
 
   return base ? `${base}${localizedPath}` : localizedPath
 }
