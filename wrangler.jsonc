@@ -1,0 +1,9 @@
+{
+  // Cloudflare Worker static assets deployment
+  "name": "astro-blog",
+  "compatibility_date": "2025-09-13",
+  "assets": {
+    "directory": "./dist"
+  }
+}
+
